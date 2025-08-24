@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html>
+
+<head>
+
+<title>SYNTHESE 3.3.0</title>
+
+  <link rel="stylesheet" href="../map/css/syntheseMap.css">
+
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/customSelect.css" />
+  <link rel="stylesheet" href="css/customAutocomplete.css" />
+  <link rel="stylesheet" href="vendor/autocomplete/jquery.autocomplete.css" type="text/css" />
+
+  <!-- GMap doesn't load correctly through require.js --> 
+  <script src="http://maps.google.com/maps/api/js?v=3.5&amp;sensor=false"></script>
+  <!--<script src="../map/vendor/OpenLayers_full/lib/OpenLayers.js"></script>-->
+  <script src="../core/vendor/requirejs/require.js"></script>
+  <script>
+  /* You can set the baseUrl here, in case the packages are not installed at "/".
+  var requireJSConfig = {
+    baseUrl: "/mydir"
+  };
+  */
+  </script>
+  <script data-version=1 src="../core/js/init.js"></script>
+
+</head>
+
+<body>
+
+<div id="form_map">
+    <div id="search_area">
+        <div class="form_search_area_logo"></div>
+        <div class="form_search_area" name="stop">
+            <div class="title_form_search_area">Rechercher un arret</div>
+            <input name="name_stop_city" type="text" value="Commune" />
+            <input toBeDisplayed="true" searchtype="name" name="name_stop" type="text" value="Nom" />
+            <input type="button" value="Chercher" />
+        </div>
+        
+        <div class="form_search_area" name="city">
+            <div class="title_form_search_area">Rechercher une commune</div>
+            <input toBeDisplayed="true" searchtype="name" name="name_city" type="text" value="Commune" />
+            <input type="button" value="Chercher" />
+        </div>
+        
+        <div class="form_search_area" name="adress" noDataSearch="true">
+            <div class="title_form_search_area">Rechercher une adresse</div>
+            <input name="name_adress_city" value="Commune"/>
+            <input toBeDisplayed="true" name="name_adress" type="text" value="Adresse" disabled="true"/>
+            <input searchtype="x" name="name_adress_x" type="hidden" value="" />
+            <input searchtype="y" name="name_adress_y" type="hidden" value="" />
+            <input type="button" value="Chercher" />
+        </div>
+        
+        <div class="form_search_area" name="line" noDataSearch="true">
+            <div class="title_form_search_area">Rechercher une ligne</div>
+            <!-- Line selection area -->
+            <div class="dropdown">
+                <dt><a toBeDisplayed="true"><span>Lignes</span><input type="hidden" searchtype="id" value="" /></a></dt>
+                <dd>
+                    <ul name="name_line"></ul>
+                </dd>
+            </div>
+            <input type="button" value="Chercher" />
+        </div>
+        
+        <div class="form_search_area" name="see_all_stops">
+            <input type="button" value="Voir tous les arrêts" />
+        </div>
+        <div class="form_search_area" name="see_all_lines">
+            <input type="button" value="Voir toutes les lignes" />
+        </div>
+        
+    </div>
+    <div id="filter_area">
+        <div id="title_filter_area">Filtre <input type=checkbox class="checkUncheck"></div>
+        <div id="content_line_filter_area"></div>
+    </div>
+</div>
+
+<div id="message_box">Test de message</div>
+
+<div id="map"></div>
+<script>
+
+
+var tisseoMap;
+
+require([
+  "core/js/Synthese",
+  "networkExplorer/js/networkExplorer",
+], function(Synthese, networkExplorer) {
+  Synthese.init();
+  tisseoMap = new networkExplorer.TisseoMap("map");
+});
+</script>
+</body>
+
+</html>

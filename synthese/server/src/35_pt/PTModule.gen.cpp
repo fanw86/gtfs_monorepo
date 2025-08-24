@@ -1,0 +1,1 @@
+synthese::pt::moduleRegister();

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited by Romain Hugues (RCSmobility) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="CommercialLine.xsd"/>
+	<xs:element name="physicalStops">
+		<xs:annotation>
+			<xs:documentation>List of physical stops</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="physicalStop" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Each physical stop of the list</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="direction" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Each terminus stop area reachable from the stop</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="DirectionType">
+											<xs:sequence>
+												<xs:element name="line" type="LineType" maxOccurs="unbounded">
+													<xs:annotation>
+														<xs:documentation>Each line reaching the direction from the physical stop (even if this not as terminus)</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="id" use="required">
+							<xs:simpleType>
+								<xs:restriction base="physicalStopId"/>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="name" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="cityId" type="cityId" use="required"/>
+						<xs:attribute name="cityName" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="stopAreaId" type="stopAreaId" use="required"/>
+						<xs:attribute name="stopAreaName" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="operatorCode">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="cityId">
+		<xs:annotation>
+			<xs:documentation>Unique id of city (table 6)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="1688849860263937"/>
+			<xs:maxInclusive value="1970324836974591"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="stopAreaId">
+		<xs:annotation>
+			<xs:documentation>Unique id of stop area (table 7)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="1970324836974593"/>
+			<xs:maxInclusive value="2251799813685247"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="physicalStopId">
+		<xs:annotation>
+			<xs:documentation>Unique id of physical stop (table 12)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="3377699720527873"/>
+			<xs:maxInclusive value="3659174697238527"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DirectionType">
+		<xs:annotation>
+			<xs:documentation>A stop area corresponding to a line destination</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="id" type="stopAreaId" use="required"/>
+		<xs:attribute name="name" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="cityId" type="cityId" use="required"/>
+		<xs:attribute name="cityName" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="directionAlias"/>
+	</xs:complexType>
+</xs:schema>

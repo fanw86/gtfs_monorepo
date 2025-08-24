@@ -1,0 +1,165 @@
+set_source_groups()
+
+set(data_exchange_SRCS
+  CalendarFileFormat.cpp
+  CalendarFileFormat.hpp
+  CalendarOGTFileFormat.cpp
+  CalendarOGTFileFormat.hpp
+  CMSExport.cpp
+  CMSExport.hpp
+  CMSImport.cpp
+  CMSImport.hpp
+  DataExchangeModule.cpp
+  DataExchangeModule.gen.cpp
+  DataExchangeModule.inc.cpp
+  DataExchangeModule.hpp
+  DataExchangeModuleRegister.cpp
+  DinoFileFormat.cpp
+  DinoFileFormat.hpp
+  GTFSFileFormat.cpp
+  GTFSFileFormat.hpp
+  GPSdFileFormat.cpp
+  GPSdFileFormat.hpp
+  GPSSimuFileFormat.cpp
+  GPSSimuFileFormat.hpp
+  HafasFileFormat.cpp
+  HafasFileFormat.hpp
+  HanoverTheoricalFileFormat.cpp
+  HanoverTheoricalFileFormat.hpp
+  HastusCSVFileFormat.cpp
+  HastusCSVFileFormat.hpp
+  HastusInterfaceFileFormat.cpp
+  HastusInterfaceFileFormat.hpp
+  HeuresFileFormat.cpp
+  HeuresFileFormat.hpp
+  HousesCSVFileFormat.cpp
+  HousesCSVFileFormat.hpp
+  IGNstreetsFileFormat.cpp
+  IGNstreetsFileFormat.hpp
+  IneoBDSIFileFormat.cpp
+  IneoBDSIFileFormat.hpp
+  IneoDepartureBoardsFileFormat.cpp
+  IneoDepartureBoardsFileFormat.hpp
+  IneoFileFormat.cpp
+  IneoFileFormat.hpp
+  IneoNCEConnection.cpp
+  IneoNCEConnection.hpp
+  IneoOperationFileFormat.cpp
+  IneoOperationFileFormat.hpp
+  IneoRealTimeFileFormat.cpp
+  IneoRealTimeFileFormat.hpp
+  MGScreenConnection.cpp
+  MGScreenConnection.hpp
+  NavstreetsFileFormat.cpp
+  NavstreetsFileFormat.hpp
+  NCEStatusService.cpp
+  NCEStatusService.hpp
+  ObitiFileFormat.cpp
+  ObitiFileFormat.hpp
+  OGTFileFormat.cpp
+  OGTFileFormat.hpp
+  OpenStreetMapFileFormat.cpp
+  OpenStreetMapFileFormat.hpp
+  OSMFileFormat.cpp
+  OSMFileFormat.hpp
+  PegaseFileFormat.cpp
+  PegaseFileFormat.hpp
+  PhysicalStopsCSVExportFunction.cpp
+  PhysicalStopsCSVExportFunction.h
+  POICSVFileFormat.cpp
+  POICSVFileFormat.hpp
+  PubliBikeCSVFileFormat.cpp
+  PubliBikeCSVFileFormat.hpp
+  PTDataCleanerFileFormat.cpp
+  PTDataCleanerFileFormat.hpp
+  PTFileFormat.cpp
+  PTFileFormat.hpp
+  PTOperationFileFormat.cpp
+  PTOperationFileFormat.hpp
+  RoadFileFormat.cpp
+  RoadFileFormat.hpp
+  RoadShapeFileFormat.cpp
+  RoadShapeFileFormat.hpp
+  RTMFileFormat.cpp
+  RTMFileFormat.hpp
+  RSSFileFormat.cpp
+  RSSFileFormat.hpp
+  ServicesCSVFileFormat.hpp
+  ServicesCSVFileFormat.cpp
+  StopButtonFilePoller.cpp
+  StopButtonFilePoller.hpp
+  StopsShapeFileFormat.cpp
+  StopsShapeFileFormat.hpp
+  TridentFileFormat.cpp
+  TridentFileFormat.h
+  VDVSubscriptionService.cpp
+  VDVSubscriptionService.hpp
+  VDVClient.cpp
+  VDVClient.hpp
+  VDVClientsListService.cpp
+  VDVClientsListService.hpp
+  VDVClientSubscription.cpp
+  VDVClientSubscription.hpp
+  VDVClientTableSync.cpp
+  VDVClientTableSync.hpp
+  VDVDataReadyService.cpp
+  VDVDataReadyService.hpp
+  VDVDataSupplyService.cpp
+  VDVDataSupplyService.hpp
+  VDVServer.cpp
+  VDVServer.hpp
+  VDVServersListService.cpp
+  VDVServersListService.hpp
+  VDVServerSubscription.cpp
+  VDVServerSubscription.hpp
+  VDVServerSubscriptionTableSync.cpp
+  VDVServerSubscriptionTableSync.hpp
+  VDVServerTableSync.cpp
+  VDVServerTableSync.hpp
+  VDVStatusService.cpp
+  VDVStatusService.hpp
+  VixV6000FileFormat.cpp
+  VixV6000FileFormat.hpp
+  vix/VIX-BSC-defines.hpp
+  vix/VIX-CIntSurvMsg.cpp
+  vix/VIX-CIntSurvMsg.hpp
+  vix/VIX-Ccrc16.cpp
+  vix/VIX-Ccrc16.hpp
+  vix/VIX-ComPortMgr.cpp
+  vix/VIX-ComPortMgr.hpp
+  vix/VIX-SerialReader.cpp
+  vix/VIX-SerialReader.hpp
+  vix/VIX-rs232.cpp
+  vix/VIX-rs232.hpp
+  vix/VIX-timeutil.cpp
+  vix/VIX-timeutil.hpp
+)
+
+set_source_files_properties(DataExchangeModule.gen.cpp DataExchangeModule.inc.cpp PROPERTIES HEADER_FILE_ONLY 1)
+
+include_directories(${EXPAT_INCLUDE_DIRS})
+
+add_library(61_data_exchange ${data_exchange_SRCS})
+
+target_link_libraries(61_data_exchange
+  00_framework
+  01_util
+  10_db
+  12_security
+  16_impex
+  17_messages
+  18_graph
+  20_tree
+  31_calendar
+  32_geography
+  33_algorithm
+  37_pt_operation
+  38_vehicle
+  61_osm_import
+  ${EXPAT_LIBRARIES}
+)
+
+install(TARGETS 61_data_exchange DESTINATION lib)
+
+#add_subdirectory(testapps/ValidateurTestApp)
+

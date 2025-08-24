@@ -1,0 +1,1 @@
+synthese::security::moduleRegister();

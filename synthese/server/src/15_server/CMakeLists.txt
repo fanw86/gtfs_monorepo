@@ -1,0 +1,123 @@
+set_source_groups()
+set(server_SRCS
+Action.h
+ActionException.cpp
+ActionException.h
+ActionService.cpp
+ActionService.hpp
+BasicClientWin.cpp
+BasicClientWin.h
+BasicClient.cpp
+BasicClient.h
+CallableByThread.hpp
+CleanerThreadExec.cpp
+CleanerThreadExec.h
+ClientException.cpp
+ClientException.h
+DbModuleConfigTableSync.cpp
+DbModuleConfigTableSync.h
+DynamicRequest.cpp
+DynamicRequest.h
+Function.cpp
+Function.h
+FunctionAPI.cpp
+FunctionAPI.h
+GlobalVariableUpdateAction.cpp
+GlobalVariableUpdateAction.hpp
+GlobalVariableUpdateService.cpp
+GlobalVariableUpdateService.hpp
+HardwareInformationService.cpp
+HardwareInformationService.hpp
+HTTPClient.cpp
+HTTPClient.hpp
+HTTPConnection.cpp
+HTTPConnection.hpp
+HTTPClient.cpp
+HTTPClient.hpp
+HTTPReply.cpp
+HTTPReply.hpp
+HTTPRequest.hpp
+HTTPRequestParser.cpp
+HTTPRequestParser.hpp
+LoginAction.cpp
+LoginAction.h
+LoginToken.cpp
+LoginToken.hpp
+LogoutAction.cpp
+LogoutAction.h
+MemoryStatisticsAdmin.cpp
+MemoryStatisticsAdmin.hpp
+ModuleClass.cpp
+ModuleClass.h
+ModuleClassTemplate.hpp
+ModuleException.h
+QuitAction.cpp
+QuitAction.hpp
+RedirectService.cpp
+RedirectService.hpp
+Request.cpp
+Request.h
+RequestException.cpp
+RequestException.h
+SecurityPolicy.h
+SecurityPolicy.cpp
+ServerAdminRight.cpp
+ServerAdminRight.h
+ServerConstants.h
+ServerModule.cpp
+ServerModule.gen.cpp
+ServerModuleRegister.cpp
+ServerModule.h
+ServerModule.inc.cpp
+ServerModuleException.cpp
+ServerModuleException.h
+ServerTypes.h
+Session.cpp
+Session.h
+SessionException.cpp
+SessionException.h
+SessionService.cpp
+SessionService.hpp
+SessionsListService.cpp
+SessionsListService.hpp
+SetSessionVariableAction.cpp
+SetSessionVariableAction.hpp
+StaticActionFunctionRequest.h
+StaticActionRequest.h
+StaticFunctionRequest.h
+SuicidalAction.cpp
+SuicidalAction.hpp
+SYNTHESEInformationService.cpp
+SYNTHESEInformationService.hpp
+ThreadKillAction.cpp
+ThreadKillAction.h
+ThreadsAdmin.cpp
+ThreadsAdmin.h
+version.h.in
+VersionService.cpp
+VersionService.hpp
+XMLSessionFunction.cpp
+XMLSessionFunction.h
+XMLSessionIsValidFunction.cpp
+XMLSessionIsValidFunction.h
+)
+
+set_source_files_properties(ServerModule.gen.cpp ServerModule.inc.cpp PROPERTIES HEADER_FILE_ONLY 1)
+
+add_library(15_server ${server_SRCS})
+
+if(UNIX)
+  set(PTHREAD "pthread")
+endif()
+
+target_link_libraries(15_server
+  01_util
+  05_html
+  10_db
+  12_security
+  13_dblog
+  14_admin
+  ${PTHREAD}
+)
+
+install(TARGETS 15_server DESTINATION lib)

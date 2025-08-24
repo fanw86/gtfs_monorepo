@@ -1,0 +1,32 @@
+*** Settings ***
+Resource          ../../resources/s3-server/common.txt    
+Resource          ../../resources/s3-fakeclient/ineo_sae_connector.txt    
+Test Setup        Start Synthese On Node 0  
+Test Teardown     Stop Synthese On Node 0
+
+*** Keywords ***
+
+Creating Ineo Message Should Work
+    [Arguments]  ${ineo_message_template}
+    Ineo SAEIV Establishes Connection  127.0.0.1  4563
+    ${request}=  Create Message From Ineo SAEIV  request_template=${ineo_message_template}
+    Connector Should Handle Request  ${request}
+
+
+*** Test Cases ***
+
+Creating Ineo Message Should Work For Any Message Type
+    [Template]    Creating Ineo Message Should Work
+    PassengerCreateMessageRequest
+    DriverCreateMessageRequest
+    PpdsCreateMessageRequest
+    GirouetteCreateMessageRequest
+    SonoPassengerCreateMessageRequest
+    SonoDriverCreateMessageRequest
+    SonoStopPointCreateMessageRequest
+    BivGeneralCreateMessageRequest
+    BivLineManCreateMessageRequest
+    BivLineAutoCreateMessageRequest
+    BivGeneralCreateMessageRequest_T2C
+    BivLineManCreateMessageRequest_T2C
+

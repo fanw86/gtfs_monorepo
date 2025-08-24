@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Route Planner</title>
+  <link rel="stylesheet" href="../map/css/stopSelector.css">
+  <link rel="stylesheet" href="../local/routePlanner/css/routePlanner.css">
+  <style>
+  html {
+    padding: 0;
+    font-family: 'Maven Pro', arial, serif;
+    font-size: small;
+  }
+
+  /* TODO: move some to routePlanner.css */
+
+  form > div {
+    margin: 2em;
+    width: 20em;
+  }
+  input[type=text] {
+    width: 20em;
+    border: 1px solid gray;
+  }
+  </style>
+
+</head>
+<body>
+  <h1>Route Planner Demo</h1>
+
+  <form class="routePlannerForm" name="routePlannerForm">
+    <div class=departure>
+      <div>
+        <a href="#" class="mapLink" tabindex=-1 title="Afficher la carte de sélection d'arrêt">Carte</a>
+        <div>Ville de départ</div>
+      </div>
+      <input class=city type=text autofocus name=dct id=origin_city_txt
+             placeholder="commune"><br>
+      <div>Arrêt de départ (optionnel)</div>
+      <input class=place type=text name=act id=origin_place_txt
+             placeholder="arrêt, adresse ou lieu public"><br>
+    </div>
+    <div class=arrival>
+      <div>
+        <a href="#" class="mapLink" tabindex=-1 title="Afficher la carte de sélection d'arrêt">Carte</a>
+        <span>Ville d'arrivée</span>
+      </div>
+      <input class=city type=text name=act id=destination_city_txt
+             placeholder="commune"><br>
+      <div>Arrêt d'arrivée (optionnel)</div>
+      <input class=place type=text name=apt id=destination_place_txt
+             placeholder="arrêt, adresse ou lieu public"><br>
+    </div>
+    <div>
+      <input type="hidden" name="md" value="9999">
+      <input type="checkbox" id="noTransfer">
+      <label for="noTransfer">Sans correspondance</label>
+    </div>
+    <div>
+      <input type="hidden" name="siteId">
+      <input type="submit" id="submitButton" value="Submit">
+    </div>
+  </form>
+
+  <!-- GMap doesn't load correctly through require.js -->
+  <script src="http://maps.google.com/maps/api/js?v=3.5&amp;sensor=false"></script>
+  <!--<script src="/map/vendor/OpenLayers_full/lib/OpenLayers.js"></script>-->
+  <script src="/core/vendor/requirejs/require.js"></script>
+  <script data-version=1 src="/core/js/init.js"></script>
+  <script>
+
+  var stopSelector;
+  require([
+    "core/js/Synthese",
+    "map/js/CityBrowser",
+    "routePlanner/js/RoutePlanner",
+    "map/js/StopSelector",
+    "routePlanner/js/legacy/core",
+    "routePlanner/js/legacy/interface"
+  ], function(Synthese, CityBrowser, routePlanner, StopSelector) {
+    Synthese.init();
+
+    legacyRoutePlannerConfig.minCharsToTriggerAutocomplete = 0;
+    legacyRoutePlannerConfig.routePlannerFormName = "routePlannerForm";
+
+    routePlanner.initAutoCompletions();
+
+    var form = document.getElementsByName("routePlannerForm")[0];
+    form.siteId.value = Synthese.siteId;
+
+    var stopSelector = new StopSelector({
+      routePlanner: new routePlanner.RoutePlannerView({el: form}),
+      routePlannerOptions: {
+        formName: legacyRoutePlannerConfig.routePlannerFormName
+      }
+    });
+
+    if (localStorage.debug_showMap)
+      $(".mapLink:first").trigger("click");
+  });
+  </script>
+
+</body>
+</html>

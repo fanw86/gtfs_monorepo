@@ -1,0 +1,55 @@
+/* local routePlanner CSS */
+@import url("../../../routePlanner/css/routePlanner.css");
+
+/* TODO: there should be a class on the form for better targetting */
+form .mapLink {
+  display: none;
+  float: right;
+  padding-left: 20px;
+  background: url(../img/map_icon.png) no-repeat left center;
+}
+
+.placeholder {
+  color: #aaa;
+}
+
+/* autocomplete popup */
+#completeDiv {
+  border: 1px solid black;
+  padding: 0;
+  z-index: 1;
+  display: none;
+  position: absolute;
+  background-color: white;
+}
+
+#completeDiv .autoCompleteDivListeStyle {
+  font-size: 13px;
+  word-wrap: break-word;
+}
+
+#completeDiv .autoCompleteDiv {
+  display: block;
+  padding-left: 3;
+  padding-right: 3;
+  height: 16px;
+  overflow: hidden;
+  background-color: white;
+  cursor: pointer;
+  text-align: left;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+#completeDiv .autoCompleteDivAct {
+  background-color: #3366cc;
+  color: white !important;
+  cursor: pointer;
+  text-align: left;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+#completeDiv .autoCompleteDivTitle {
+  font-weight: bold;
+}

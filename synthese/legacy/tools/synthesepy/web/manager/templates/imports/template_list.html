@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block breadcrumb %}
+  <li>Templates d'import disponibles</li>
+{% endblock %}
+{% block body %}
+  <ul>
+  {% for template in templates %}
+    <li><a href="{{ url_for('.import_template', template_id=template.id) }}">{{ template.label }}</a>
+  {% else %}
+    <li><em>{{ i18n.no_templates }}</em>
+  {% endfor %}
+  </ul>
+{% endblock %}

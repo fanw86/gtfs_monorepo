@@ -1,0 +1,17 @@
+{
+    "admin_password": "changeme", 
+    "browser": "custom", 
+    "browser_args": [
+        "URL"
+    ], 
+    "browser_path": "/path/to/browser", 
+    "caching_proxy": false, 
+    "debug": false, 
+    "displays": [
+        "display0"
+    ], 
+    "kiosk_name": "synthese_kiosk", 
+    "offline_cache_dir": "/tmp/offline_cache", 
+    "secret_key": "changeme", 
+    "synthese_url": "http://example.com"
+}

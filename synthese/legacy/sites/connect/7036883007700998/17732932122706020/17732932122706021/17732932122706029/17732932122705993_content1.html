@@ -1,0 +1,122 @@
+<h3>Emplacement des fichiers de données</h3>
+
+<div class="control-group">
+ <label class="control-label">Fichier arrêts (stops)</label>
+ <div class="controls">
+  <input name="pastops" type="text" value="<@pastops@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group">
+ <label class="control-label">Fichier transfers (optionnel)</label>
+ <div class="controls">
+  <input name="patransfers" type="text" value="<@patransfers@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group">
+ <label class="control-label">Fichier réseaux (agency)</label>
+ <div class="controls">
+  <input name="paagency" type="text" value="<@paagency@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier itinéraires (routes)</label>
+ <div class="controls">
+  <input name="paroutes" type="text" value="<@paroutes@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier calendriers</label>
+ <div class="controls">
+  <input name="pacalendar" type="text" value="<@pacalendar@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier dates</label>
+ <div class="controls">
+  <input name="pacalendar_dates" type="text" value="<@pacalendar_dates@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier voyages (trips)</label>
+ <div class="controls">
+  <input name="patrips" type="text" value="<@patrips@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier horaires (stop_times)</label>
+ <div class="controls">
+  <input name="pastop_times" type="text" value="<@pastop_times@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier attributs tarification (fare_attributes)</label>
+ <div class="controls">
+  <input name="pafare_attributes" type="text" value="<@pafare_attributes@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier règles de tarification (fare_rules)</label>
+ <div class="controls">
+  <input name="pafare_rules" type="text" value="<@pafare_rules@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier géométries (shapes)</label>
+ <div class="controls">
+  <input name="pashapes" type="text" value="<@pashapes@>" is_parameter="true" />
+ </div>
+</div>
+
+<div class="control-group"><label class="control-label">Fichier services continus (frequencies)</label>
+ <div class="controls">
+  <input name="pafrequencies" type="text" value="<@pafrequencies@>" is_parameter="true" />
+ </div>
+</div>
+
+<h3>Retraitement des données</h3>
+
+<#forms/text_input&
+  name=sadc&
+  label=ID commune par défaut&
+#>
+
+<#forms/text_input&
+  name=sadt&
+  unit=min&
+  class=input-mini&
+  label=Temps de transfert par défaut&
+#>
+
+<#forms/text_input&
+  name=use_rule_block_id_mask&
+  label=Masque règles d'utilisation&
+#>
+
+<h3>Options d'import</h3>
+
+<#forms/yes_no_input&
+  name=from_today&
+  label=Ignorer données passées&
+#>
+
+<#forms/yes_no_input&
+  name=clean_old_data&
+  label=Effacer données actuelles&
+#>
+
+<#forms/yes_no_input&
+  name=clean_unused_stops&
+  label=Effacer arrêts non utilisés&
+#>
+
+<#forms/yes_no_input&
+  name=isa&
+  label=Import arrêts commerciaux&
+#>
+
+<#forms/yes_no_input&
+  name=display_linked_stops&
+  label=Affichage arrêts liés&
+#>

@@ -1,0 +1,9 @@
+# OneBusAway VDV Libraries and Tools
+
+Libraries and tools for working with transit data conforming to the VDV specification.  
+
+**Current Version:** ${currentVersion}
+
+Details on all releases can be found in the [Release Notes](./release-notes.html).
+
+#set( $H = '#' ) ## When using velocity templating (a .vm file), the ## indicates a Velocity comment, which makes Markdown section headers tricky 

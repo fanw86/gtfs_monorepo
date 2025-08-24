@@ -1,0 +1,1 @@
+synthese::accounting::moduleRegister();

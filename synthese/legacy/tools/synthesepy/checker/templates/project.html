@@ -1,0 +1,235 @@
+{% extends "layout.html" %}
+
+{% block head %}
+  <style>
+    .form-inline {
+      display: inline;
+    }
+
+    td.same {
+      background-color: lime !important;
+    }
+    td.result_links a {
+      text-decoration: underline;
+    }
+    td.diff_space, td.diff_space a {
+      color: black;
+      background-color: orange !important;
+    }
+    td.diff, td.diff a {
+      color: white;
+      background-color: red !important;
+    }
+    td.category {
+      font-weight: bold;
+      font-size: 150%;
+      padding-left: 5em;
+      background-color: lightGray !important;
+    }
+    .running {
+      color: green;
+    }
+    .stopped {
+      color: red;
+    }
+  </style>
+  <script>
+  $(function() {
+    $("#runSQLButton").click(function(e) {
+      $.post('{{ url_for('project_run_sql', project_name=project.name) }}', {sql: $("#sqlInput").val()})
+      .success(function(result) {
+        $("#sqlResult").text(result);
+      })
+      .error(function(xhr) {
+        $("#sqlResult").text("ERROR: " + xhr.responseText);
+      });
+    });
+  });
+  </script>
+{% endblock %}
+
+{% block body %}
+
+<h1>Project {{ project.name }}</h1>
+
+<h2>Information</h2>
+
+<div class="row">
+  <div class="span12">
+
+    <dl>
+      <dt>Reference host</dt>
+        <dd>{{ project.reference_host }}
+          (<a href="//{{ project.reference_host }}/">web</a> -
+           <a href="//{{ project.reference_host }}/admin/">admin</a> -
+           <a href="//{{ project.reference_host }}/w/manager/">manager</a>)</dd>
+      <dt>Reference host</dt>
+        <dd>{{ project.test_host }}
+          (<a href="//{{ project.test_host }}/">web</a> -
+           <a href="//{{ project.test_host }}/admin/">admin</a> -
+           <a href="//{{ project.test_host }}/w/manager/">manager</a>)</dd>
+    </dl>
+
+  </div>
+</div>
+
+<h2>Project Management</h2>
+
+<div class="well">
+
+  {% if not project.synthese_project %}
+    <div class="label label-warning">Warning: Project not checked out yet</div><br>
+  {% endif %}
+
+  <form class="form-inline" action="{{ url_for('project_checkout', project_name=project.name) }}" method=post>
+    SVN username:<input class="input-small" type="text" name="svn_username">
+    SVN password:<input class="input-small" type="password" name="svn_password">
+    <button type="submit" class="btn btn-primary">Checkout/Update Project</button>
+  </form>
+
+  <br><br>
+
+  <form class="form-inline" action="{{ url_for('project_fetch_db', project_name=project.name) }}" method=post>
+    <button type="submit" class="btn btn-primary" {% if not project.synthese_project %}disabled{% endif %}>Fetch db and restart</button>
+  </form>
+
+  <form class="form-inline" action="{{ url_for('project_run_after_fetch_sql', project_name=project.name) }}" method=post>
+    <button type="submit" class="btn btn-primary" {% if not project.synthese_project %}disabled{% endif %}>Run after fetch SQL</button>
+  </form>
+
+  <form class="form-inline" action="{{ url_for('project_start', project_name=project.name) }}" method=post>
+    <button type="submit" class="btn btn-primary" {% if not project.synthese_project %}disabled{% endif %}>Start</button>
+  </form>
+
+  <form class="form-inline" action="{{ url_for('project_stop', project_name=project.name) }}" method=post>
+    <button type="submit" class="btn btn-primary" {% if not project.synthese_project %}disabled{% endif %}>Stop</button>
+  </form>
+
+  Running status:
+  {% if project.running %}
+    <span class=running>Running</span>
+  {% else %}
+    <span class="stopped">Not running</span>
+  {% endif %}
+
+  <a href="{{ url_for('project_logs', project_name=project.name) }}">View Logs</a>
+
+</div>
+
+<div class="row">
+  <div class="span12">
+    <div class="accordion" id="accordion">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+            Run SQL &raquo;&raquo;
+          </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <textarea class="input-xxlarge" id=sqlInput></textarea>
+            <br>
+            <button id=runSQLButton>Run</button>
+            <hr>
+            <div>
+              <h3>Results</h3>
+              <pre id="sqlResult"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<h2>Url Checks</h2>
+
+<div class="well">
+
+  <form class="form-inline" action="{{ url_for('run_checks', project_name=project.name) }}" method=post>
+    <button type="submit" class="btn btn-primary">Run Checks</button>
+  </form>
+
+  <form class="form-inline" action="{{ url_for('clear_results', project_name=project.name) }}" method=post>
+    <button type="submit" class="btn btn-primary">Clear Results</button>
+  </form>
+
+</div>
+
+{#
+todo
+<dl>
+  <dt>Launched at:</dt>
+    <dd>yyyy mm dd, hh:mm</dd>
+</dl>
+#}
+
+<div class="row">
+  <div class="span12">
+
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Label</th>
+            <th>Site</th>
+            <th>Username</th>
+            <th>Links</th>
+            <th>Results</th>
+            <th>Comparison</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for url in project.urls %}
+            <tr>
+            {% if url.kind == 'category' %}
+              <td colspan=6 class="category">{{ url.label }}</td>
+            {% else %}
+              <td>{{ url.label if url.label else url.path }}</td>
+              <td>{{ url.site_name }}</td>
+              <td>{{ url.username or '' }}</td>
+              <td>
+                <a href="{{ url.ref_url }}">ref url</a> /
+                <a href="{{ url.test_url }}">test url</a> /
+                <a href="http://localhost/{{ url.path }}">local</a> /
+                <a href="{{ url.localhost_url }}">local+port</a>
+              </td>
+              {% if url.result_status == 'not_avail' %}
+                <td>N/A</td>
+                <td>N/A</td>
+              {% else %}
+                <td>
+                  <a href="{{ url.get_result_url('ref') }}">ref result</a> /
+                  <a href="{{ url.get_result_url('test') }}">test result</a>
+                </td>
+                {% if url.result_status == 'same' %}
+                  <td class="same">
+                    same
+                  </td>
+                {% elif url.result_status == 'diff_space' %}
+                  <td class="result_links diff_space">
+                    <a href="{{ url.get_result_url('diff') }}">diff</a>
+                  </td>
+                {% else %}
+                  <td class="result_links diff">
+                    <a href="{{ url.get_result_url('diff') }}">diff</a> /
+                    <a href="{{ url.get_result_url('diff_space') }}">diff (ignoring space)</a>
+                  </td>
+                {% endif %}
+              {% endif %}
+              <td>
+                <form class="form-inline" action="{{ url.get_result_url('rerun') }}" method=post>
+                  <button type="submit" class="btn btn-mini btn-primary">Rerun</button>
+                </form>
+              </td>
+            {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+</div>
+
+{% endblock %}

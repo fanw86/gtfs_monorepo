@@ -1,0 +1,152 @@
+<?if&cond=<@roid@>&then=<?object&roid=<@roid@>&template=<@folder_id=<@roid@>@><@current_website_id=<@site_id@>@>?>?>
+<?if&cond=<@medialibrary_id@>&then=<?object&roid=<@medialibrary_id@>&template=<@current_website_id=<@website_id@>@>?>?>
+<?media_libraries&template=<{medialibrary&template=
+  <?if&cond=<@website_name@>&then=<@medialibraryFound=1@>?>
+  <?if&cond=<@current_website_id@>&then=<?if&cond=<@current_website_id==website_id@>&then=<@medialibrary_id=<@id@>@>?>
+  &else=<?if&cond=<@~global("default_medialibrary_id")==id@>&then=<@medialibrary_id=<@id@>@><@current_website_id=<@website_id@>@>?>
+?>}>?>
+<?if&cond=<@medialibraryFound@>&else=<#404#>
+&then=
+<ul class="breadcrumb" id="admin_mediatheque">
+  <li class=\"active\">Médiathèques</li>
+</ul>
+
+  <@admin_mediatheque=1@>
+  <#mediatheque_selector#>
+
+  <div id="addFolderModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addFolderModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="addFolderModalLabel">Nouveau répertoire</h3>
+    </div>
+    <?form&
+      name=addFolder&
+      a=WebPageAddAction&
+      target=<@p@>&
+      class=form-horizontal&
+      actionParamsi=<@current_website_id@>&
+      actionParampi=<@folder_id@>&
+      actionParammt=/&
+      view_mode=<@view_mode@>&
+      medialibrary_id=<@medialibrary_id@>&
+      roid=<@folder_id@>
+    ?>
+    <div class="modal-body">
+      <div class="control-group">
+        <label class="control-label">Nom</label>
+        <div class="controls">
+          <input type="text" name="actionParamti" required>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-warning">Créer le répertoire</button>
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Annuler</button>
+    </div>
+    </form>
+  </div>
+  <div id="removeFolderModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="removeFolderModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="removeFolderModalLabel">Suppression de répertoire</h3>
+    </div>
+    <?form&
+      name=removeFolder&
+      a=RemoveObjectAction&
+      target=<@p@>&
+      class=form-horizontal&
+      view_mode=<@view_mode@>&
+      actionParam_object_id=<@folder_id@>&
+      medialibrary_id=<@medialibrary_id@>
+    ?>
+    <div class="modal-body">
+      <p>Etes-vous sûr de vouloir supprimer le répertoire ?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger">Oui</button>
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Non</button>
+    </div>
+    </form>
+  </div>
+  <div id="renameFolderModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="renameFolderModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="renameFolderModalLabel">Renommer le répertoire</h3>
+    </div>
+    <?form&
+      name=renameFolder&
+      a=WebPageUpdateAction&
+      target=<@p@>&
+      class=form-horizontal&
+      actionParamwp=<@folder_id@>&
+      actionParammt=/&
+      actionParamdu=1&
+      actionParam_do_not_evaluate=1&
+      view_mode=<@view_mode@>&
+      roid=<@folder_id@>
+    ?>
+    <div class="modal-body">
+      <div class="control-group">
+        <label class="control-label">Nom</label>
+        <div class="controls">
+          <input type="text" name="actionParamti" id="renameFieldModal" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-warning">Renommer</button>
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Annuler</button>
+    </div>
+    </form>
+  </div>
+  <div id="removeFileModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="removeFileModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="removeFileModalLabel">Suppression de fichier</h3>
+    </div>
+      <?form&
+	name=removeFileForm&
+	a=RemoveObjectAction&
+	target=<@p@>&
+	actionParam_object_id=&
+	view_mode=<@view_mode@>&
+	roid=<@folder_id@>
+      ?>
+      <div class="modal-body">
+        <p>Etes-vous sûr de vouloir supprimer le fichier ?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger">Oui</button>
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Non</button>
+      </div>
+    </form>
+  </div>
+  <div id="uploadFileModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="uploadFileModalLabel">Upload d'un objet multimédia</h3>
+    </div>
+      <?form&
+	name=uploadFileForm&
+	a=WebpageContentUploadAction&
+	target=<@p@>&
+	actionParam_up_id=<@folder_id@>&
+	actionParam_smart_url_from_tree=1&
+	view_mode=<@view_mode@>&
+	roid=<@folder_id@>
+      ?>
+      <div class="modal-body">
+        <div class="control-group">
+          <div class="controls">
+            <input type="file" accept="*" name="actionParam_content" id="uploadFieldModal" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary">Insérer</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="/terminus/js/mediatheque.js"></script>

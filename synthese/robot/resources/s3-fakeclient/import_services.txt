@@ -1,0 +1,52 @@
+*** Settings ***
+Resource          ../s3-server/common.txt
+Resource          ../s3-server/object_services.txt
+Library           XML
+
+*** Variables ***
+
+*** Keywords ***
+
+Create Data Source
+    [Arguments]  ${name}  ${charset}=UTF-8  ${srid}=4326
+    ${xml_content}=  Create Synthese Object    ${DATA_SOURCES_TABLE_ID}  field_name\=${name}  field_charset\=${charset}  field_srid\=${srid}
+    ${data_source_id}=  Get Element Attribute  source=${xml_content}  name=id
+    [Return]    ${data_source_id}
+
+
+Import OSM Export
+    [Arguments]  ${osm_export_file}  ${country_code}  ${default_road_place_id}=0
+    ${data_source_id}=  Create Data Source    name=OpenStreetMapCityBoundaries
+    ${xml_content}=  Create Synthese Object    ${IMPORTS_TABLE_ID}  ${IMPORTS_TABLE_ID}  field_name\=OSM_Import  field_file_format\=OSM  field_data_source_id\=${data_source_id}  field_log_path\=${SUITE NAME}/${TEST NAME}/${node.node_dir}/import_logs  field_min_log_level\=10
+    ${import_id}=  Get Element Attribute  source=${xml_content}  name=id
+    ${response}=  Call Synthese Service    ImportFunction    ds\=${data_source_id}  di\=1  pa\=${osm_export_file}  import_id\=${import_id}  country_code\=${country_code}  default_road_place_id\=${default_road_place_id}
+    Log Many  ${response.content}
+    Should Be Equal As Strings    ${response.status_code}    200
+    [Return]    ${response}
+
+Import PubliBike Stations
+    [Arguments]  ${publibike_stations_file}
+    ${data_source_id}=  Create Data Source    name=PubliBikeCSV
+    ${xml_content}=  Create Synthese Object    ${IMPORTS_TABLE_ID}  ${IMPORTS_TABLE_ID}  field_name\=Stations_PubliBike  field_file_format\=PubliBikeCSV  field_data_source_id\=${data_source_id}  field_log_path\=${SUITE NAME}/${TEST NAME}/${node.node_dir}/import_logs  field_min_log_level\=10
+    ${import_id}=  Get Element Attribute  source=${xml_content}  name=id
+    ${response}=  Call Synthese Service    ImportFunction    ds\=${data_source_id}  di\=1  pa\=${publibike_stations_file}  import_id\=${import_id}  project\=1
+    Log Many  ${response.content}
+    Should Be Equal As Strings    ${response.status_code}    200
+    [Return]    ${response}
+
+Import Inter_synthese_package File
+    [Arguments]  ${inter_synthese_package_file}
+    ${xml_content}=  Create Synthese Object    ${DATA_SOURCES_TABLE_ID}  field_name\=inter_synthese_package
+    ${data_source_id}=  Get Element Attribute  source=${xml_content}  name=id
+    ${xml_content}=  Create Synthese Object    ${IMPORTS_TABLE_ID}  ${IMPORTS_TABLE_ID}  field_name\=ISP_Import  field_file_format\=inter_synthese_package  field_data_source_id\=${data_source_id}  field_log_path\=${SUITE NAME}/${TEST NAME}/${node.node_dir}/import_logs  field_min_log_level\=10
+    ${import_id}=  Get Element Attribute  source=${xml_content}  name=id
+    ${response}=  Call Synthese Service    ImportFunction    ds\=${data_source_id}  di\=1  file_path\=${inter_synthese_package_file}  import_id\=${import_id}  url\=inutile
+    Log Many  ${response.content}
+    Should Be Equal As Strings    ${response.status_code}    200
+    [Return]    ${response}
+
+
+Project StopPoints
+    ${response}=  Call Synthese Service    action    action_name=\ProjectAllStopPointsAction
+
+

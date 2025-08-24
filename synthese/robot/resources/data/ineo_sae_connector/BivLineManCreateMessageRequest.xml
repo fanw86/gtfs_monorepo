@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- commentaire libre -->
+<BivLineManCreateMessageRequest>
+	<ID>${ID}</ID>
+	<RequestTimeStamp>${TIMESTAMP}</RequestTimeStamp>
+	<RequestorRef>${REQUESTOR_REF}</RequestorRef>
+	<Messaging>
+		<Name>0020 MessageLigneManuel1</Name>
+		<StartDate>20/01/2015</StartDate>
+		<StopDate>21/01/2015</StopDate>
+		<StartTime>12:00:00</StartTime>
+		<StopTime>20:00:00</StopTime>
+		<Alternance>oui</Alternance>
+		<Text>
+			<Line>Message affiché sur </Line>
+			<Line>les bornes de la </Line>
+			<Line>ligne 12</Line>
+		</Text>
+		<Recipients Line="12"/>
+	</Messaging>
+</BivLineManCreateMessageRequest>

@@ -1,0 +1,61 @@
+<#forms/yes_no_input&
+  label=Effacer données anciennes&
+  name=clean_old_data&
+#>
+
+<#forms/datepicker&
+  name=start_date&
+  label=Date de début&
+#>
+
+<#forms/datepicker&
+  name=end_date&
+  label=Date de fin&
+#>
+
+<#forms/text_input&
+  name=papointsarrets&
+  label=Fichier des arrêts&
+#>
+
+<#forms/text_input&
+  name=paitinerai&
+  label=Fichier des itinéraires&
+#>
+
+<#forms/text_input&
+  name=patroncons&
+  label=Fichier des tronçons&
+#>
+
+<#forms/text_input&
+  name=paservices&
+  label=Fichier des services&
+#>
+
+<h3>Liens avec la base SYNTHESE</h3>
+
+<#forms/network_selector&
+  name=network_id&
+#>
+
+<#forms/datasource_selector&
+  label=Source de données des arrêts (si différente)&
+  name=stops_datasource_id&
+#>
+
+<#forms/calendar_selector&
+  label=Calendrier des jours fériés&
+  name=day7_calendar_id&
+#>
+
+<?if&
+  cond=<@for=="execution"@>&
+  then=
+	<h3>Mode debug</h3>
+	
+	<#forms/yes_no_input&
+	  name=display_linked_stops&
+	  label=Affichage des arrêts&
+	#>
+?>

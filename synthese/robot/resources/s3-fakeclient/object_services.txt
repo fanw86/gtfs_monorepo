@@ -1,0 +1,56 @@
+*** Settings ***
+Resource          ../s3-server/object_services.txt
+Library           Collections
+Library           String
+Library           XML
+
+*** Variables ***
+
+*** Keywords ***
+
+There Is No Object In Table 
+    [Arguments]  ${table_id}
+    There Are 0 Objects In Table ${table_id}
+
+There Is One Object In Table 
+    [Arguments]  ${table_id}
+    There Are 1 Objects In Table ${table_id}
+
+There Is Two Objects In Table 
+    [Arguments]  ${table_id}
+    There Are 2 Objects In Table ${table_id}
+
+There Is Three Objects In Table 
+    [Arguments]  ${table_id}
+    There Are 3 Objects In Table ${table_id}
+
+There Is Four Objects In Table 
+    [Arguments]  ${table_id}
+    There Are 4 Objects In Table ${table_id}
+
+Count Objects In Table ${table_id:\d+}
+    ${response_content}=  List Synthese Objects  table_id=${table_id}
+    ${object_count}=  Get Element Count  ${response_content}  xpath=object
+    [Return]  ${object_count}
+
+There Are ${expected_object_count:\d+} Objects In Table ${table_id:\d+}
+    ${object_count}=  Count Objects In Table ${table_id}
+    Should Be Equal As Numbers  ${expected_object_count}  ${object_count}    
+
+Get Attribute ${attribute_name:\S+} Of Object ${object_index:\d+} In Table ${table_id:\d+}
+    ${response_content}=  List Synthese Objects  table_id=${table_id}
+    ${attribute_value}=  Get Element Attribute  source=${response_content}  name=${attribute_name}  xpath=object[${object_index}]
+    [Return]  ${attribute_value}
+
+Every Object In Table ${table_id:\d+} Should Have Attribute ${attribute_name:\S+} Equal To "${attribute_value}"
+    ${response_content}=  List Synthese Objects  table_id=${table_id}
+    ${total_object_count}=  Get Element Count  ${response_content}  xpath=object
+    ${matching_object_count}=  Get Element Count  ${response_content}  xpath=object[@${attribute_name}='${attribute_value}']
+    Should Be Equal  ${total_object_count}  ${matching_object_count}
+
+Count Objects In Table ${table_id:\d+} Where Column "${column_name}" Is Empty
+    ${response}=  List Synthese Objects  table_id=${table_id}
+    ${object_count}=  Get Element Count  ${response}  xpath=object[@${column_name} = ""]
+    [Return]  ${object_count}
+
+

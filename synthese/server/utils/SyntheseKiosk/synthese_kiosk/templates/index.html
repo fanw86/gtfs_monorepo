@@ -1,0 +1,239 @@
+{% extends "layout.html" %}
+
+{% block head %}
+  <style>
+  .online {
+    background-color: lime;
+  }
+  .offline {
+    background-color: red;
+    color: white;
+  }
+  .unknown {
+    background-color: lightGray;
+  }
+  .logs {
+    font-size: 11px;
+  }
+  </style>
+{% endblock %}
+
+{% block nav %}
+  <ul class="nav">
+    <li><a href="#configuration">Configuration</a></li>
+    <li><a href="#management">Management</a></li>
+    <li><a href="#status">Status</a></li>
+  </ul>
+{% endblock %}
+
+
+{% block body %}
+
+  <div class="row" id="configuration" data-bind="with: config">
+    <div class="span14">
+      <h1>Configuration</h1>
+
+      <form data-bind="submit: saveConfig">
+        <fieldset>
+
+          <div class="clearfix">
+            <label for="kiosk_name">Kiosk Name</label>
+            <div class="input">
+              <input class="xlarge" id="kiosk_name" name="kiosk_name"
+                     data-bind="value: kioskName" size="30" type="text" >
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="synthese_url">Synthese URL</label>
+            <div class="input">
+              <input class="xlarge" id="synthese_url" name="synthese_url"
+                     data-bind="value: syntheseUrl" size="30" type="text"
+                     placeholder="http://example.com">
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="kiosk_config">kiosk_config.json alternative</label>
+            <div class="input">
+              <input class="xlarge" id="kiosk_config" name="kiosk_config"
+                     data-bind="value: kioskConfig" size="30" type="text"
+                     placeholder="kiosk_config.json">
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="admin_password">Admin Password</label>
+            <div class="input">
+              <input class="xlarge" id="admin_password" name="admin_password"
+                     data-bind="value: adminPassword" size="30" type="password" />
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="secret_key">Secret Key</label>
+            <div class="input">
+              <input class="xlarge" id="secret_key" name="secret_key"
+                     data-bind="value: secretKey" size="30" type="text">
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="browser">Browser</label>
+            <div class="input">
+              <select name="browser" id="browser"
+                      data-bind="options: availableBrowsers, value: browser">
+              </select>
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="browser_path">Browser Path</label>
+            <div class="input">
+              <input class="xlarge" id="browser_path" name="browser_path"
+                     data-bind="value: browserPath" size="30" type="text">
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="browser_args">Browser Arguments (for custom browser)</label>
+            <div class="input">
+              <input class="xlarge" id="browser_args" name="browser_args"
+                     data-bind="value: browserArgs" size="30" type="text">
+              <span class="help-block">
+                Comma separated list of browser arguments.<br>
+                <b>You MUST include one argument with the "URL" value that
+                will be replaced with the url to load.</b><br>
+                For Midori, use <code>-a,URL,-e,Fullscreen</code>
+              </span>
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="display_names">Display Names</label>
+            <div class="input">
+              <input class="xlarge" id="display_names" name="display_names"
+                     data-bind="value: displayNames" size="30" type="text">
+              <span class="help-block">
+                Comma separated list of display names.
+              </span>
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="offline_cache_dir">Offline Cache Directory</label>
+            <div class="input">
+              <input class="xlarge" id="offline_cache_dir" name="offline_cache_dir"
+                     data-bind="value: offlineCacheDir" size="30" type="text">
+              <span class="help-block">
+                The offline cache dir is a local persistent storage place used
+                to save the fallback site.
+              </span>
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="auto_refresh_timeout">Auto Refresh Timeout</label>
+            <div class="input">
+              <input class="xlarge" id="auto_refresh_timeout" name="auto_refresh_timeout"
+                     data-bind="value: autoRefreshTimeout" size="30" type="number">
+              <span class="help-block">
+                This is the period used to force a refresh of the browser. You must
+                use a browser supported by Selenium and have installed the proper driver.
+		If you don't do so, the browser will be killed and restarted instead of
+		being silently refreshed. Set the value to 0 to disable the refresh.
+              </span>
+            </div>
+          </div><!-- /clearfix -->
+
+          <div class="clearfix">
+            <label for="debug">Debug</label>
+            <div class="input">
+              <input id="debug" name="debug"
+                     data-bind="checked: debug" type="checkbox">
+            </div>
+          </div><!-- /clearfix -->
+
+        </fieldset>
+        <div class="actions">
+          <input type="submit" class="btn primary" value="Save changes" data-bind="click: saveConfig">
+          <button type="reset" class="btn">Cancel</button>
+           <span class="help-block">
+             You need to click "apply config" below for changes to take effect.
+           </span>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+
+  <div class="row" id="management">
+    <div class="span11">
+      <h1>Management</h1>
+
+      <form action="{{ url_for('force_reload') }}" method=post>
+        <fieldset>
+          <legend>Force Displays Reload</legend>
+          <div class="input">
+            Force a browser reload of all displays.
+          </div>
+          <div class="actions">
+            <input type="submit" class="btn primary" value="Force Displays Reload">
+          </div>
+        </fieldset>
+      </form>
+
+      <form action="{{ url_for('stop_kiosk') }}" method=post>
+        <fieldset>
+          <legend>Stop Kiosk</legend>
+          <div class="input">
+            Stops Synthese Kiosk.
+          </div>
+          <div class="actions">
+            <input type="submit" class="btn primary" value="Stop SyntheseKiosk">
+            <span class="label important">Warning:</span> this will kill all browsers.
+          </div>
+        </fieldset>
+      </form>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="row" id="status" data-bind="with: status">
+    <div class="span14">
+      <h1>Status</h1>
+
+      <button class="btn" data-bind="click: refresh">Refresh Status</button>
+
+      <h3>Screenshots</h2>
+      <p>
+        <ul data-bind="foreach: $root.config.displayNamesArray">
+          <li>
+            <a data-bind="attr: { href: '/screenshot/' + $data.index },
+                          text: 'Display ' + $data.label"></a>
+          </li>
+        </ul>
+      </p>
+
+      <h3>Status</h3>
+      <p>
+        <div data-bind="text: online, attr: { class: online }"></div>
+      </p>
+
+      <h3>Last logs (most recent first)</h3>
+      <pre data-bind="text: logs" class="logs"></pre>
+
+    </div>
+
+
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}

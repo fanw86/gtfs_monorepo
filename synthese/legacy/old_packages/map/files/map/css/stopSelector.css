@@ -1,0 +1,52 @@
+@import url("cityBrowser.css");
+
+/* CSS reset for the popup */
+.stopSelectorPopup * {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.stopSelectorPopup {
+  font-family: 'Maven Pro', arial, serif;
+  font-size: small;
+
+  display: none;
+  z-index: 3000;
+
+  position: fixed;
+  background-color: white;
+
+  border: 1px solid black;
+  box-shadow: 0px 0px 100px #333333;
+
+  top: 10%;
+  height: 80%;
+  left: 10%;
+  width: 80%;
+}
+.stopSelectorPopup h1 {
+  height: 2em;
+  margin: 0;
+  padding: 4px;
+
+  font-size: larger;
+  text-align: center;
+  text-shadow: 1px 1px 1px white;
+  background-color: lightGray;
+}
+.stopSelectorPopup .close {
+  font-size: medium;
+  float: right;
+  margin-right: 2em;
+}
+
+.stopSelectorPopup .cityBrowser {
+  background: white;
+  position: absolute;
+  top: 2em;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}

@@ -1,0 +1,46 @@
+set_source_groups()
+
+set(hiking_SRCS
+HikingModule.cpp
+HikingModule.gen.cpp
+HikingModuleRegister.cpp
+HikingModule.h
+HikingModule.inc.cpp
+HikingRight.cpp
+HikingRight.h
+HikingTrail.cpp
+HikingTrail.h
+HikingTrailAddAction.cpp
+HikingTrailAddAction.h
+HikingTrailAdmin.cpp
+HikingTrailAdmin.h
+HikingTrailDisplayFunction.cpp
+HikingTrailDisplayFunction.h
+HikingTrailMultipleRoutePlannerFunction.cpp
+HikingTrailMultipleRoutePlannerFunction.hpp
+HikingTrailsAdmin.cpp
+HikingTrailsAdmin.h
+HikingTrailSearchFormInterfaceElement.cpp
+HikingTrailSearchFormInterfaceElement.h
+HikingTrailSearchFunction.cpp
+HikingTrailSearchFunction.h
+HikingTrailStopAddAction.cpp
+HikingTrailStopAddAction.hpp
+HikingTrailStopRemoveAction.cpp
+HikingTrailStopRemoveAction.hpp
+HikingTrailTableSync.cpp
+HikingTrailTableSync.h
+HikingTrailUpdateAction.cpp
+HikingTrailUpdateAction.h
+)
+
+set_source_files_properties(HikingModule.gen.cpp HikingModule.inc.cpp PROPERTIES HEADER_FILE_ONLY 1)
+
+add_library(58_hiking ${hiking_SRCS})
+
+target_link_libraries(58_hiking
+  53_pt_journey_planner
+  56_pt_website
+)
+
+install(TARGETS 58_hiking DESTINATION lib)
